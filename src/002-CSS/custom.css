@@ -116,6 +116,26 @@ input[type="text"] {
 	padding: 4px;	
 }
 
+.dicebagButton button {
+	width: 80px; !important;
+	color: White;
+	background-color: CornflowerBlue;
+	font-size: smaller;
+	border-radius: 12px;
+	padding: 4px;
+}
+
+.disabledDicebagButton button {
+	width: 80px; !important;
+    opacity: 0.6;
+    cursor: not-allowed !important;
+	color: White;
+	background-color: CornflowerBlue;
+	font-size: smaller;
+	border-radius: 12px;
+	padding: 4px;	
+}
+
 
 .cmdButton button {
 	width: 140px; !important;

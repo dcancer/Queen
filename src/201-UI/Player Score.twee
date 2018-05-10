@@ -7,7 +7,7 @@ Coins: <span id="Money"><<print $Player.Money>></span>
 <tbody>
 <tr>
 	<td colspan="2">\
-<<customMenuLink "Journal">> | <<customMenuLink "Skills">> | <<customMenuLink "Inventory">>
+<<customMenuLink "Journal">> | <<customMenuLink "Skills">> | <<customMenuLink "Inventory">> | <<customMenuLink "Dicebag">>
 	</td>
 </tr>
 <tr>

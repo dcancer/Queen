@@ -1,0 +1,3 @@
+:: Dicebag [custom-menu]
+@@color:cyan;Interact@@: <<click "Exit" $GameBookmark>><</click>>\
+<span id="DicebagUI"><<DiceTable "dice">></span>

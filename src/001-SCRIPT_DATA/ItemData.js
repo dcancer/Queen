@@ -725,6 +725,43 @@ window.App.Data.Clothes = {
             }
         };
 
+window.App.Data.Dice = {
+            "common sex die": {
+                "Name": "common sex die",
+                "ShortDesc": "A four sided die for sex",
+                "LongDesc": "A four sided die for handjobs, blowjobs, and assfucking",
+                "Type": "DICE",
+                "DiceEffect": {"HandJobs": 1, "BlowJobs": 1, "AssFucking": 1, "HandJobs": 2}
+            },
+            "uncommon sex die": {
+                "Name": "uncommon sex die",
+                "ShortDesc": "A six sided die for sex",
+                "LongDesc": "A six sided die for handjobs, blowjobs, and assfucking",
+                "Type": "DICE",
+                "DiceEffect": {"HandJobs": 1, "BlowJobs": 1, "AssFucking": 1, "HandJobs": 2,
+                               "BlowJobs": 2, "AssFucking": 2}
+            },
+            "rare sex die": {
+                "Name": "rare sex die",
+                "ShortDesc": "An eight sided die for sex",
+                "LongDesc": "An eight sided die for handjobs, blowjobs, and assfucking",
+                "Type": "DICE",
+                "DiceEffect": {"HandJobs": 1, "BlowJobs": 1, "AssFucking": 1, "HandJobs": 2,
+                               "BlowJobs": 2, "AssFucking": 2,
+                               "HandJobs": 3, "BlowJobs": 3}
+            },
+            "legendary sex die": {
+                "Name": "legendary sex die",
+                "ShortDesc": "A ten sided die for sex",
+                "LongDesc": "A ten sided die for handjobs, blowjobs, and assfucking",
+                "Type": "DICE",
+                "DiceEffect": {"HandJobs": 1, "BlowJobs": 1, "AssFucking": 1, "HandJobs": 2,
+                               "BlowJobs": 2, "AssFucking": 2,
+                               "HandJobs": 3, "BlowJobs": 3,
+                               "AssFucking": 3, "HandJobs": 4}
+            }
+        };
+
 window.App.Data.Cosmetics = {
             "hair accessories": {
                 "Name": "haircare accessories",

@@ -1,0 +1,195 @@
+:: DicebagWidgets [widget]
+<<widget "InspectDie">><<set _Item = $Player.GetDiceInSlot($args[0]); >>\
+<<nobr>>
+<table class=".MyTable">
+<tbody>
+	<tr><td colspan="3">
+			<h3>@@color:yellow;Inspecting Die@@</h3>
+		</td>
+		<td>@@.dicebagButton;<<button "Back">>
+			<<replace "#DicebagUI">><<DiceTable>><</replace>>
+			<</button>>@@
+		</td>
+	</tr>
+	<tr style="border-bottom:1px solid white;">
+		<td style="width:80px;"> </td>
+		<td style="width:360px;"> </td>
+		<td style="width:80px;"> </td>
+		<td style="width:80px;"> </td>
+	</tr>	
+</tbody></table><</nobr>>\
+You spy with your little eye...
+
+<<print _Item.Description() >>
+<<print _Item.Examine();>>
+<</widget>>
+
+<<widget "DiceExa">><<nobr>>
+<<set _Item = $Player.GetDiceInSlot($args[0]); >>
+<<if _Item == 0>>@@.disabledDicebagButton;<<button "Examine">><</button>>@@
+<<else>>
+@@.dicebagButton;<<button "Examine">>
+<<replace "#DicebagUI">><<InspectDie $args[0]>><</replace>>
+<</button>>@@
+<</if>>
+<</nobr>>
+<</widget>>
+
+<<widget "InspectDicebag">><<nobr>>
+<<set _Item = $Player.DicebagItem($args[0]); >>
+<<set _Slot = $args[1];>>
+<table class=".MyTable">
+<tbody>
+	<tr><td colspan="3">
+			<h3>@@color:yellow;Inspecting Dice@@</h3>
+		</td>
+		<td>@@.dicebagButton;<<button "Back">>
+			<<replace "#DicebagUI">><<DicebagTable _Slot>><</replace>>
+			<</button>>@@
+		</td>
+	</tr>
+	<tr style="border-bottom:1px solid white;">
+		<td style="width:80px;"> </td>
+		<td style="width:360px;"> </td>
+		<td style="width:80px;"> </td>
+		<td style="width:80px;"> </td>
+	</tr>	
+</tbody></table><</nobr>>\
+You spy with your little eye...
+
+<<print _Item.Description() >>
+<<print _Item.Examine();>>
+<</widget>>
+
+<<widget "DicebagExamine">><<nobr>>
+	@@.dicebagButton;<<button "Examine">>
+	<<replace "#DicebagUI">><<InspectDicebag $args[0] $args[1]>><</replace>>
+	<</button>>@@
+<</nobr>><</widget>>
+
+<<widget "DicebagWear">><<nobr>>
+<<set _Worn = $Player.GetDiceInSlot($args[1])>>
+<<if _Worn != 0>>
+		@@.dicebagButton;<<button "Wear">>
+		<<run $Player.WearDiceInSlot($args[1], $Player.DicebagItem($args[0])) >><<replace "#DicebagUI">><<DiceTable>><</replace>>
+		<</button>>@@
+<<else>>
+		@@.dicebagButton;<<button "Wear">>
+		<<run $Player.WearDiceInSlot($args[1], $Player.DicebagItem($args[0])) >><<replace "#DicebagUI">><<DiceTable>><</replace>>
+		<</button>>@@		
+<</if>>
+<</nobr>><</widget>>
+
+<<widget "DicebagTable">><<nobr>>
+<<set _Items = $Player.DicebagItems()>>
+<table class=".MyTable">
+<tbody>
+	<tr><td colspan="3">
+			<h3>@@color:yellow;Dicebag - <<= $args[0] >>@@</h3>
+		</td>
+		<td>@@.dicebagButton;<<button "Back">>
+			<<replace "#DicebagUI">><<DiceTable>><</replace>>
+			<</button>>@@
+		</td>
+	</tr>
+	<tr style="border-bottom:1px solid white;">
+		<td style="width:80px;"> </td>
+		<td style="width:360px;">Item</td>
+		<td style="width:80px;"> </td>
+		<td style="width:80px;"> </td>
+	</tr>
+<<for _i = 0; _i lt _Items.length; _i++>>
+<tr>
+<td> </td>
+<td><<= _Items[_i].Description() >></td>
+<td><<= "<<DicebagExamine \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
+<td><<= "<<DicebagWear \"" + _Items[_i].Id() + "\" \"" + $args[0] + "\" >>" >></td>
+</tr>
+<</for>>	
+</tbody>
+</table>
+<</nobr>><</widget>>
+
+<<widget "DiceChange">><<nobr>>
+<<set _Item = $Player.GetDiceInSlot($args[0]); >>
+<<if _Item != 0>>
+		<<if $Player.DicebagItems().length > 0>>
+			@@.dicebagButton;<<button "Change">><<replace "#DicebagUI">><<DicebagTable $args[0]>><</replace>><</button>>@@		
+		<<else>>
+			@@.disabledDicebagButton;<<button "Change">><</button>>@@
+		<</if>>
+<<else>>
+	<<if $Player.DicebagItems().length > 0>>
+		@@.dicebagButton;<<button "Change">><<replace "#DicebagUI">><<DicebagTable $args[0]>><</replace>><</button>>@@		
+	<<else>>
+		@@.disabledDicebagButton;<<button "Change">><</button>>@@
+	<</if>>
+<</if>>
+<</nobr>><</widget>>
+
+<<widget "RemoveDiceInSlot">><<nobr>>
+<<if $Player.GetDiceInSlot($args[0]) != 0>>
+		@@.dicebagButton;<<button "Remove">>
+		<<run $Player.RemoveDiceInSlot($args[0])>>
+		<<replace "#DicebagUI">><<DiceTable>><</replace>><</button>>@@
+<<else>>
+		@@.disabledDicebagButton;<<button "Remove">><</button>>@@
+<</if>>
+<</nobr>><</widget>>
+
+<<widget "dwlink">><<nobr>>
+<<click $args[0]>><<replace "#DicebagUI">><<DicebagTable $args[0]>><</replace>><</click>>
+<</nobr>>
+<</widget>>
+
+<<widget "DiceTable">><<nobr>>
+<table class=".MyTable">
+<tbody>
+<tr>
+	<td colspan=2><h3>@@color:yellow;Dicebag@@</h3></td>
+</tr>
+<tr style="border-bottom:1px solid white;">
+	<td style="width:360px;">Item</td>
+	<td style="width:80px;"> </td>
+	<td style="width:80px;"> </td>
+	<td style="width:80px;"> </td>
+</tr>
+<tr>
+	<td><<= $Player.PrintDice("Dice1") >></td>
+	<td><<DiceExa "Dice1">></td>
+	<td><<DiceChange "Dice1">></td>
+	<td><<RemoveDiceInSlot "Dice1">></td>
+</tr>
+<tr>
+	<td><<= $Player.PrintDice("Dice2") >></td>
+	<td><<DiceExa "Dice2">></td>
+	<td><<DiceChange "Dice2">></td>
+	<td><<RemoveDiceInSlot "Dice2">></td>
+</tr>
+<tr>
+	<td><<= $Player.PrintDice("Dice3") >></td>
+	<td><<DiceExa "Dice3">></td>
+	<td><<DiceChange "Dice3">></td>
+	<td><<RemoveDiceInSlot "Dice3">></td>
+</tr>
+<tr>
+	<td><<= $Player.PrintDice("Dice4") >></td>
+	<td><<DiceExa "Dice4">></td>
+	<td><<DiceChange "Dice4">></td>
+	<td><<RemoveDiceInSlot "Dice4">></td>
+</tr>
+<tr>
+	<td><<= $Player.PrintDice("Dice5") >></td>
+	<td><<DiceExa "Dice5">></td>
+	<td><<DiceChange "Dice5">></td>
+	<td><<RemoveDiceInSlot "Dice5">></td>
+</tr>
+<tr>
+	<td><<= $Player.PrintDice("Dice6") >></td>
+	<td><<DiceExa "Dice6">></td>
+	<td><<DiceChange "Dice6">></td>
+	<td><<RemoveDiceInSlot "Dice6">></td>
+</tr>
+</tbody>
+</table>
+<</nobr>><</widget>>

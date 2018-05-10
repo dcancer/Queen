@@ -76,4 +76,10 @@ window.App.Data.Stores =  {
             { "CATEGORY":   "COMMON",   "TYPE": "FOOD",    "QTY":   12,     "MAX":   12,  "PRICE":    60, "MOOD":  0,   "LOCK": 0,  "TAG" : "rum"                    }
         ]
     },
+    "ISLADICESTORE" : {
+        "ID" : "ISLADICESTORE",    "NAME" : "Isla Harbor Dice Store",  "OPEN" : [0, 1, 2, 3], "RESTOCK" : 7,
+        "INVENTORY" : [
+            { "CATEGORY":   "COMMON",   "TYPE": "DICE",    "QTY":   12,     "MAX":   12,  "PRICE":    12, "MOOD":  0,   "LOCK": 0,  "TAG" : "common sex die"         }
+        ]
+    }
 };

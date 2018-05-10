@@ -14,6 +14,7 @@ window.App.Item = new function() {
             if (Type == "STORE") d = window.App.Data.Stores[Name];
 			if (Type == "NPC") d = window.App.Data.NPCS[Name];
             if (Type == "QUEST") d = window.App.Data.QuestItems[Name];
+            if (Type == "DICE") d = window.App.Data.Dice[Name];
 
             if (d == 0 || (typeof d === 'undefined')) alert("Factory Failed: (" + Type + "," + Name + "," + Count + ")");
 
@@ -30,6 +31,8 @@ window.App.Item = new function() {
             }
 
             if (Type == "QUEST") o = new this.QuestItem(d);
+
+            if (Type == "DICE") o = new this.Dice(d);
 
             if (Type == "DRUGS" || Type == "FOOD" || Type == "COSMETICS" ) o = new this.Consumable(d);
             if ((Count != 0) && (typeof d["Charges"] !== 'undefined')) o.Data["Charges"] = Count;
@@ -266,6 +269,38 @@ window.App.Item = new function() {
         };
         this.Examine = function (Player) {
             return this.Data["LongDesc"];
+        };
+        this.Type = function () {
+            return this.Data["Type"];
+        };
+
+        this.Charges = function() { return 1; }
+
+    }
+
+    this.Dice = function(d) {
+        this.Data = $.extend( true, {}, d );
+
+        var timestamp = new Date().getTime();
+        this._id = this.Data["Name"] + ":" + timestamp;
+
+        this.Id = function () {
+            return this._id;
+        };
+        this.Name = function () {
+            return this.Data["Name"];
+        };
+        this.Description = function () {
+            return this.Data["ShortDesc"];
+        };
+        this.Examine = function (Player) {
+            return this.Data["LongDesc"];
+        };
+        this.Slot = function () {
+            return this.Data["Slot"];
+        };
+        this.DiceEffect = function () {
+            return this.Data["DiceEffect"] ? this.Data["DiceEffect"] : {};
         };
         this.Type = function () {
             return this.Data["Type"];

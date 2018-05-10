@@ -119,6 +119,17 @@ window.App.Data.NPCS = {
                 "Title": "NPC_NAME, Bar Wench",
                 "LongDesc": "NPC_NAME is an older, but still attractive woman, with long flowing black hair and a truly stupendous bust that is only enhanced by her corseted dress. She can usually be found busily tending to orders, or just casually chatting up a regular.",
                 "Store": "PEACOCK"
+            },
+            "IslaDiceShopKeeper" :  {
+                "Name" : "Dicey",
+                "Mood" : 40,
+                "Wealth" : 40,
+                "DailyMood" : 0,
+                "Lust" : 40,
+                "DailyLust" : 10,
+                "Title" : "NPC_NAME, the Shopkeeper",
+                "LongDesc" : "NPC_NAME is a popular town gossip and the proprietor of the only store on Isla Harbor. She is a sturdy middle aged woman with a heaving bosom and a wild crown of blond hair.",
+                "Store" : "ISLADICESTORE"
             }
 };
 

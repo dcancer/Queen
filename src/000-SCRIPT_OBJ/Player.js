@@ -75,6 +75,15 @@ window.App.Entity.Player = function (){
             "Penis":            window.App.Item.Factory("CLOTHES", "chastity cage")
         };
 
+        this.Dice = {
+            "Dice1":            window.App.Item.Factory("DICE", "common sex die"),
+            "Dice2":            window.App.Item.Factory("DICE", "common sex die"),
+            "Dice3":            window.App.Item.Factory("DICE", "common sex die"),
+            "Dice4":            0,
+            "Dice5":            0,
+            "Dice6":            0
+        };
+
         this.NPCS = {
             "Crew":                 window.App.Item.Factory("NPC",     "Crew"),
             "Cook":                 window.App.Item.Factory("NPC",     "Cook"),
@@ -86,7 +95,8 @@ window.App.Entity.Player = function (){
             "Jarvis" :              window.App.Item.Factory("NPC",     "Jarvis"),
             "LordRowe":             window.App.Item.Factory("NPC",     "LordRowe"),
             "Petey":                window.App.Item.Factory("NPC",     "Petey"),
-            "Georgina":             window.App.Item.Factory("NPC",     "Georgina")
+            "Georgina":             window.App.Item.Factory("NPC",     "Georgina"),
+            "IslaDiceShopKeeper" :  window.App.Item.Factory("NPC",     "IslaDiceShopKeeper")
         };
 
         this.StoreInventory = {
@@ -95,7 +105,8 @@ window.App.Entity.Player = function (){
             "ISLATAVERN":       { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "ISLASTORE":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
             "SMUGGLERS":        { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
-            "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
+            "PEACOCK":          { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]},
+            "ISLADICESTORE":    { "LAST_STOCKED" : 0, "INVENTORY" : [ ], "RARE" : [ ]}
         };
     };
 
@@ -248,6 +259,13 @@ window.App.Entity.Player = function (){
      * @type {Array}
      */
     this.Wardrobe = [ ];
+
+
+    /**
+     * Clothing items the Player owns.
+     * @type {Array}
+     */
+    this.Dicebag = [ ];
 
     /**
      * Performs a skill roll.
@@ -963,8 +981,18 @@ window.App.Entity.Player = function (){
         })[0];
     };
 
+    this.DicebagItem = function (id) {
+        return this.Dicebag.filter(function (o) {
+            return o.Id() == id;
+        })[0];
+    };
+
     this.WardrobeItemsBySlot = function(Slot) {
         return this.Wardrobe.filter(function(Item) { return Item.Slot() == Slot;});
+    };
+
+    this.DicebagItems = function() {
+        return this.Dicebag;
     };
 
     /**
@@ -980,6 +1008,28 @@ window.App.Entity.Player = function (){
 
     /**
      * @param {string} Slot
+     * @returns {string}
+     */
+    this.PrintDice = function(Slot)
+    {
+        if (!this.Dice.hasOwnProperty(Slot)) return "@@color:grey;Nothing@@";
+        if (this.Dice[Slot] == 0 ) return "@@color:grey;Nothing@@";
+        return this.Dice[Slot].Description();
+    };
+
+    /**
+     * @param {string} Slot
+     * @returns {string}
+     */
+    this.PrintDice = function(Slot)
+    {
+        if (!this.Dice.hasOwnProperty(Slot)) return "@@color:grey;Nothing@@";
+        if (this.Dice[Slot] == 0 ) return "@@color:grey;Nothing@@";
+        return this.Dice[Slot].Description();
+    };
+
+    /**
+     * @param {string} Slot
      * @returns {*}
      */
     this.GetEquipmentInSlot = function(Slot) {
@@ -987,10 +1037,27 @@ window.App.Entity.Player = function (){
         return this.Equipment[Slot];
     };
 
+    /**
+     * @param {string} Slot
+     * @returns {*}
+     */
+    this.GetDiceInSlot = function(Slot) {
+        if ( (!this.Dice.hasOwnProperty(Slot)) || (this.Dice[Slot] == 0 )) return 0;
+        return this.Dice[Slot];
+    };
+
     this.Wear = function (item) {
         for (var i = 0; i < item.Restrict().length; i++) this.Remove(this.Equipment[item.Restrict()[i]]);
         this.Equipment[item.Slot()] = item;
         this.Wardrobe = this.Wardrobe.filter(function (o) {
+            return o.Id() != item.Id();
+        });
+    };
+
+    this.WearDiceInSlot = function (Slot, item) {
+        this.RemoveDiceInSlot(Slot);
+        this.Dice[Slot] = item;
+        this.Dicebag = this.Dicebag.filter(function (o) {
             return o.Id() != item.Id();
         });
     };
@@ -1009,6 +1076,13 @@ window.App.Entity.Player = function (){
         if (item == 0) return;
         this.Equipment[item.Slot()] = 0;
         this.Wardrobe.push(item);
+    };
+
+    this.RemoveDiceInSlot = function (Slot) {
+        if ( (!this.Dice.hasOwnProperty(Slot)) || (this.Dice[Slot] == 0 )) return;
+		var item = this.GetDiceInSlot(Slot);
+        this.Dice[Slot] = 0;
+        this.Dicebag.push(item);
     };
 
     this.HasItemByType = function (Type) {
